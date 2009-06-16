@@ -24,7 +24,8 @@ static NSMutableArray *_trackingAreas; // 2-dimensional
 // This method is because -[NSWindow frame] isn't updated continually during a drag.
 - (NSRect)liveFrame {
     Rect qdRect;
-    GetWindowBounds([self windowRef], kWindowStructureRgn, &qdRect);
+    // this function doesn't exist in 64bit
+    //GetWindowBounds([self windowRef], kWindowStructureRgn, &qdRect);
 
     return NSMakeRect(qdRect.left,
                       (float)CGDisplayPixelsHigh(kCGDirectMainDisplay) - qdRect.bottom,
@@ -32,7 +33,7 @@ static NSMutableArray *_trackingAreas; // 2-dimensional
                       qdRect.bottom - qdRect.top);
 }
 - (NSRect)convertLiveBaseRectToScreen:(NSRect)rect {
-    NSRect liveFrame = [self liveFrame];
+    NSRect liveFrame = self.frame; //[self liveFrame]; can't call liveFrame in 64bit
     return NSMakeRect(liveFrame.origin.x + rect.origin.x,
                       liveFrame.origin.y + rect.origin.y,
                       rect.size.width,
@@ -387,7 +388,7 @@ static NSMutableArray *_trackingAreas; // 2-dimensional
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    MATrackingArea *copy = (MATrackingArea *)[[[self class] allocWithZone:zone]
+    MATrackingArea *copy = [(MATrackingArea *)[[self class] allocWithZone:zone]
                             initWithRect:[self rect]
                                  options:[self options]
                                    owner:[self owner]
@@ -406,7 +407,7 @@ static NSMutableArray *_trackingAreas; // 2-dimensional
     NSDictionary *userInfo = [coder decodeObjectForKey:@"_userInfo"];
     id owner = [coder decodeObjectForKey:@"_owner"];
 
-    self = (MATrackingArea *)[[MATrackingArea alloc] initWithRect:rect
+    self = [(MATrackingArea *)[MATrackingArea alloc] initWithRect:rect
                                         options:options
                                           owner:owner
                                        userInfo:userInfo];
