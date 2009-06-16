@@ -793,6 +793,7 @@ BOOL usingMATrackingArea = NO;
     trackingArea = [NSClassFromString(@"NSTrackingArea") alloc];
     if (trackingArea != nil)
     {
+        // gives errors about finding multiple definitions of the init method unless adding the cast inside the init method
         [(NSTrackingArea *)trackingArea initWithRect:[self bounds]
                            options:MATrackingMouseEnteredAndExited | MATrackingActiveInKeyWindow | MATrackingEnabledDuringMouseDrag | MATrackingInVisibleRect
                              owner:self
@@ -801,6 +802,7 @@ BOOL usingMATrackingArea = NO;
     }
     else
     {
+        // gives errors about finding multiple definitions of the init method unless adding the cast inside the init method
         trackingArea = [NSClassFromString(@"MATrackingArea") alloc];
         [(MATrackingArea *)trackingArea initWithRect:[self bounds]
                            options:MATrackingMouseEnteredAndExited | MATrackingActiveInKeyWindow | MATrackingEnabledDuringMouseDrag | MATrackingInVisibleRect

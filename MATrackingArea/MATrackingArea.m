@@ -388,11 +388,12 @@ static NSMutableArray *_trackingAreas; // 2-dimensional
 
 - (id)copyWithZone:(NSZone *)zone
 {
+    // gives errors about finding multiple definitions of the init method unless adding the cast inside the init method
     MATrackingArea *copy = [(MATrackingArea *)[[self class] allocWithZone:zone]
-                            initWithRect:[self rect]
-                                 options:[self options]
-                                   owner:[self owner]
-                                userInfo:[self userInfo]];
+                                                            initWithRect:[self rect]
+                                                                 options:[self options]
+                                                                   owner:[self owner]
+                                                                userInfo:[self userInfo]];
     return copy;
 }
 
@@ -407,10 +408,11 @@ static NSMutableArray *_trackingAreas; // 2-dimensional
     NSDictionary *userInfo = [coder decodeObjectForKey:@"_userInfo"];
     id owner = [coder decodeObjectForKey:@"_owner"];
 
+    // gives errors about finding multiple definitions of the init method unless adding the cast inside the init method
     self = [(MATrackingArea *)[MATrackingArea alloc] initWithRect:rect
-                                        options:options
-                                          owner:owner
-                                       userInfo:userInfo];
+                                                          options:options
+                                                            owner:owner
+                                                         userInfo:userInfo];
     return self;
 }
 

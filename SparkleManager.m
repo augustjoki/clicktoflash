@@ -26,6 +26,7 @@
 
 #import "SparkleManager.h"
 #import <Sparkle/Sparkle.h>
+#import <objc/runtime.h>
 
 // NSUserDefaults keys
 static NSString *sAutomaticallyCheckForUpdates = @"ClickToFlash_checkForUpdatesOnFirstLoad";
